@@ -8,7 +8,7 @@ Welcome to CYFOR, a machine-learning framework to decode circadian gene regulati
 The code for this project is organized into the following files:
 - CYFOR_Oscillation - Modeling gene expression activity across time and identifying circadian genes
 - Overlap_Analysis - Annotating ChIP-Seq peak lists and creating training data frame by determining which genes are regulated by which transcription factors
-- RF_model - Training a random forest machine learning model to predict the effects of regulatory activity on circadian oscillation
+- RF_Model - Training a random forest machine learning model to predict the effects of regulatory activity on circadian oscillation
 - In_Silico_Perturb - Perturbing regulators of gene expression to predict their effect on gene oscillation patterns
 - MYC_Disruption - Analyzing existing public experimental data & overlapping ChIP-seq lists to determine whether MYC may compete with core clock gene ARNTL to disrupt circadian regulation
 
