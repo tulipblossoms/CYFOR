@@ -1,0 +1,57 @@
+library(readr)
+library(dplyr)
+library(ggplot2)
+library(matrixStats)
+
+#read in data
+fpkm_data<-read.csv("C:/Users/kelly/Internship/clock_project/ML/data/GSE98965_baboon_tissue_expression_FPKM.csv.gz")
+rownames(fpkm_data)<-fpkm_data$EnsemblID
+gene_metadata<-cbind(fpkm_data$EnsemblID,fpkm_data$Symbol)
+fpkm_data<-fpkm_data[,3:ncol(fpkm_data)]
+fpkm_data_log<-log2(fpkm_data+1)
+inds<-seq(1,nrow(fpkm_data_log)
+
+#fit oscillation models
+combined_plot_list<-list()
+for(i in inds){
+  count<-0
+  plot_list<-list()
+  for(j in target_tissues){
+    if(j=="IRI"){
+      x<-seq(0,21,by=2)
+    }else{
+      x<-seq(0,23,by=2)
+    }
+    mini_x<-seq(0,24,by=0.01)
+    y<-as.numeric(fpkm_data_log[i,grepl(j,colnames(fpkm_data_log))])
+    sin_values <- sin((2 * pi / 24) * x)
+    cos_values <- cos((2 * pi / 24) * x)
+    fit<-lm(y~sin_values+cos_values)
+    new_y<-fit$coefficients[1]+sin(2*pi*mini_x/24)*fit$coefficients[2]+cos(2*pi*mini_x/24)*fit$coefficients[3]
+    fun<-cbind(x,y1=as.numeric((y)))
+    t_hour1<-which(substr(new_combined_list_nt$X,1,18)==rownames(fpkm_data_log)[i])
+    t_hour2<-which(substr(new_combined_list_nt$X,nchar(new_combined_list_nt$X)-2,nchar(new_combined_list_nt$X))==j)
+    t_ind<-intersect(t_hour1,t_hour2)
+    t_hour<-new_combined_list_nt$hour[intersect(t_hour1,t_hour2)]
+    color<-ifelse(new_combined_list_nt$p.val[t_ind]<0.2,"darkred","darkblue")
+    p_val<-new_combined_list_nt$p.val[t_ind]
+    circadian<-ifelse(new_combined_list_nt$p.val[t_ind]<0.2,"C","NC")
+    
+    p <- ggplot() +geom_line(data = as.data.frame(cbind(mini_x, new_y)), aes(x = mini_x, y = new_y), color = "pink", size = 2)+labs(title=circadian,x = "Zeitgeber Time (ZT) ",y = "Expression")+theme(plot.title = element_text(size = 3, hjust = 0.5))+scale_x_continuous(breaks = seq(0, 23, by = 2), labels = seq(0, 23, by = 2))+geom_point(data = as.data.frame(fun), aes(x = x, y = y1),color="red", size = 3.5)+scale_color_manual(name = "Annotations",values = c("Raw Gene Exp" = "red", "Peak Time" = "black"))+theme_minimal()+  theme(
+      panel.grid = element_blank(),
+      panel.grid.major = element_blank(), 
+      panel.grid.minor = element_blank(),plot.title=element_text(size=30,color=color,hjust=0.5),
+      axis.text.x=element_text(size=12),axis.text.y=element_text(size=12),axis.title.x=element_text(size=15),axis.title.y=element_text(size=15)) 
+    
+    if(p_val<0.2){
+      p<-p+geom_vline(xintercept = t_hour,color = "black", linetype = "dashed",linewidth=1.5)
+    }
+                                                                                                                                                                                                                         
+    count<-count+1
+    plot_list[[count]]<-p
+    
+  }
+
+  combined_plot<- Reduce(`+`, plot_list) + plot_layout(ncol = 3)
+  combined_plot_list[[i]]<-combined_plot
+}
