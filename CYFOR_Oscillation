@@ -2,6 +2,7 @@ library(readr)
 library(dplyr)
 library(ggplot2)
 library(matrixStats)
+library(patchwork)
 
 #read in data
 fpkm_data<-read.csv("C:/Users/kelly/Internship/clock_project/ML/data/GSE98965_baboon_tissue_expression_FPKM.csv.gz")
